@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/18 16:12:17 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/18 16:48:05 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ int syntax_checker(char **av)
     return (0);
 }
 
+void    *my_function(void *arg)
+{
+    sleep(2);
+    printf("inside my function\n");
+    return (NULL);
+}
+
+void    create_threads(t_data *data, char *av)
+{
+    pthread_t thread_id;
+
+    printf("before thread\n");
+    pthread_create(&thread_id, NULL, my_function, NULL);
+    pthread_join(thread_id, NULL);
+    printf("%lu\n", thread_id);
+    printf("after threads\n");
+}
+
 int main(int ac, char **av)
 {
     t_data *data;
@@ -54,8 +72,7 @@ int main(int ac, char **av)
     if (!syntax_checker(av))
     {
         data_init(data, ac, av);
-        printf("I am here\n");
-        //create_threads(data, av[1]);
+        create_threads(data, av[1]);
         // philosophers eating only if both forks are available
         // and no philosopher is eating from the same fork
         // philo[i] = eating, philo[i + 1] != eating 
