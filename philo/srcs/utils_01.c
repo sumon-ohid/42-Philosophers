@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_01.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msumon < msumon@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/02/18 12:37:03 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/18 16:11:22 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_philosophers.h"
+#include "../includes/philosophers.h"
 
 int     ft_atoi(const char *str)
 {
@@ -43,4 +43,16 @@ int     ft_isdigit(int c)
     if (c >= '0' && c <= '9')
         return (0);
     return (1);
+}
+
+void ft_putstr_fd(char *str, int fd)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        write(fd, &str[i], 1);
+        i++;
+    }    
 }

@@ -1,18 +1,19 @@
 # Makefile for Philosophers project
+CC 		= cc
+CFLAGS 	= -Wall -Wextra -Werror
+NAME 	= philo
+HEADER	= philosophers.h
 
-SRCS = srcs/main.c \
-		srcs/data_init.c \
-		srcs/utils_01.c
+SRCS 	= 	srcs/main.c \
+			srcs/data_init.c \
+			srcs/utils_01.c
 
-OBJS = $(SRCS:.c=.o)
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-NAME = philo
+OBJS 	= $(SRCS:.c=.o)
 
-GREEN = \033[0;32m
-BLUE = \033[0;34m
-RED = \033[0;31m
-RESET = \033[0m
+GREEN 	= \033[0;32m
+BLUE 	= \033[0;34m
+RED 	= \033[0;31m
+RESET 	= \033[0m
 
 all: $(NAME)
 

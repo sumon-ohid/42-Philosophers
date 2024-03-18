@@ -3,27 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msumon < msumon@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/02/18 15:11:12 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/18 16:12:17 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_philosophers.h"
+#include "../includes/philosophers.h"
 
 int syntax_checker(char **av)
 {
     int i;
     int j;
+    int num;
 
+    num = 0;
     i = 1;
     while (av[i])
     {
         j = 0;
+        num = ft_atoi(av[i]);
+        if (num < 0)
+            return (1);
         while (av[i][j])
         {
-            if (!ft_isdigit(av[i][j]))
+            if (ft_isdigit(av[i][j]))
                 return (1);
             j++;
         }
@@ -49,6 +54,8 @@ int main(int ac, char **av)
     if (!syntax_checker(av))
     {
         data_init(data, ac, av);
+        printf("I am here\n");
+        //create_threads(data, av[1]);
         // philosophers eating only if both forks are available
         // and no philosopher is eating from the same fork
         // philo[i] = eating, philo[i + 1] != eating 
@@ -56,7 +63,7 @@ int main(int ac, char **av)
     }
     else
     {
-        printf("Error: Syntax is Invalid.\n");
+        ft_putstr_fd("Error: syntax is invalid.\n", 2);
         return (1);
     }
     return (0);
