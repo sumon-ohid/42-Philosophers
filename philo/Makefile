@@ -1,14 +1,16 @@
 # Makefile for Philosophers project
 CC 		= cc
-CFLAGS 	= #-Wall -Wextra -Werror
+CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -g
 NAME 	= philo
 HEADER	= philosophers.h
 
 SRCS 	= 	srcs/main.c \
+			srcs/clean_up.c \
 			srcs/data_init.c \
 			srcs/utils_01.c
 
 OBJS 	= $(SRCS:.c=.o)
+DEPS	= $(OBJS:.o=.d)
 
 GREEN 	= \033[0;32m
 BLUE 	= \033[0;34m
@@ -23,7 +25,7 @@ $(NAME): $(OBJS)
 	@echo "$(BLUE)(hint :) ./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep]$(RESET)"
 
 clean:
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(DEPS)
 	@echo "$(RED)--> Object files are removed $(RESET)"
 
 fclean: clean
@@ -33,3 +35,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+-include $(DEPS)

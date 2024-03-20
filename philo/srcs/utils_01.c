@@ -6,11 +6,22 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/18 16:11:22 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/20 14:23:32 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+long long get_time()
+{
+    struct timeval cur_time;
+    long long msec;
+
+    if(gettimeofday(&cur_time, NULL))
+        return(error_msg("gettimeofday failed\n"));
+    msec = (cur_time.tv_sec / 1000) + (cur_time.tv_usec * 1000);
+    return (msec);
+}
 
 int     ft_atoi(const char *str)
 {

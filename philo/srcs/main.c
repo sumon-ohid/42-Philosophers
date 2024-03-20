@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/18 16:48:05 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/20 14:40:09 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,39 @@ int syntax_checker(char **av)
 
 void    *my_function(void *arg)
 {
-    sleep(2);
-    printf("inside my function\n");
+    t_data *data;
+    long long time;
+
+    time = get_time();
+    data = (void*)arg;
+    pthread_mutex_lock(data->fork_mutex);
+    printf("%lld ", time);
+    printf("%d ", data->philo_count);
+    printf ("is eating\n");
+    pthread_mutex_unlock(data->fork_mutex);
     return (NULL);
 }
 
 void    create_threads(t_data *data, char *av)
 {
-    pthread_t thread_id;
-
-    printf("before thread\n");
-    pthread_create(&thread_id, NULL, my_function, NULL);
-    pthread_join(thread_id, NULL);
-    printf("%lu\n", thread_id);
-    printf("after threads\n");
+    (void)av;
+    int i;
+    
+    i = 0;
+    while (i < data->philo_count)
+    {
+        pthread_create(&data->t_id[i], NULL, my_function, data);
+        i++;
+    }
+    i = 0;
+    while (i < data->philo_count)
+    {
+        pthread_join(data->t_id[i], NULL);
+        i++;
+    }
+    free(data->t_id);
+    free(data->fork_mutex);
+    pthread_mutex_destroy(data->fork_mutex);
 }
 
 int main(int ac, char **av)
@@ -73,10 +92,6 @@ int main(int ac, char **av)
     {
         data_init(data, ac, av);
         create_threads(data, av[1]);
-        // philosophers eating only if both forks are available
-        // and no philosopher is eating from the same fork
-        // philo[i] = eating, philo[i + 1] != eating 
-        // philo[i - 1] != eating
     }
     else
     {
