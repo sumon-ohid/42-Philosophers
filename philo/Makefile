@@ -1,6 +1,6 @@
 # Makefile for Philosophers project
 CC 		= cc
-CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -pthread
+CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -pthread -g
 NAME 	= philo
 HEADER	= philosophers.h
 
