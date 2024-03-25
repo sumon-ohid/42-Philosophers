@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:30:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 08:54:34 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 12:14:28 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	mutex_destroyer(t_data *data)
 	{
 		pthread_mutex_destroy(&data->fork_mutex[i]);
 		pthread_mutex_destroy(&data->philos[i].lock);
-        i++;
+		i++;
 	}
 	pthread_mutex_destroy(&data->main_mutex);
 	pthread_mutex_destroy(&data->lock);

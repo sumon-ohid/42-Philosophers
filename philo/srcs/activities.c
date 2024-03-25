@@ -6,11 +6,21 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:38:28 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 08:54:38 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 12:15:48 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+int	ft_usleep(useconds_t time)
+{
+	int	start;
+
+	start = get_time();
+	while (get_time() - start < (int)time)
+		usleep(time / 10);
+	return (0);
+}
 
 void	putback_forks(t_philo *philos)
 {
@@ -52,7 +62,7 @@ void	philo_eating(t_philo *philos)
 	philos->time_to_die = get_time() + philos->data->time_to_die;
 	ft_massages(EATING, philos);
 	philos->philo_eat++;
-    ft_usleep(philos->data->time_to_eat);
+	ft_usleep(philos->data->time_to_eat);
 	philos->eating = 0;
 	pthread_mutex_unlock(&philos->lock);
 	putback_forks(philos);

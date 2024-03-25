@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 08:54:51 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 12:14:54 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define THINKING "is thinking"
 # define DIED "died"
 
-struct s_data;
+struct	s_data;
 
 typedef struct s_philo
 {
@@ -83,7 +83,7 @@ void				*routine(void *arg);
 int					data_init(t_data *data, int ac, char **av);
 
 // threads
-int                 create_threads(t_data *data);
-int                 one_philo(t_data *data);
+int					create_threads(t_data *data);
+int					one_philo(t_data *data);
 
 #endif

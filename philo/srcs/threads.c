@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 08:54:29 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 12:14:16 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,28 @@ void	*manager(void *data)
 	t_philo	*philos;
 
 	philos = (t_philo *)data;
-    while (philos->data->dead == 0)
-    {
-        pthread_mutex_lock(&philos->lock);
-        if (get_time() >= philos->time_to_die && philos->eating == 0)
-            ft_massages(DIED, philos);
-        if (philos->philo_eat == philos->data->meal_count)
-        {
-            pthread_mutex_lock(&philos->data->lock);
-            philos->data->finished++;
-            philos->philo_eat++;
-            pthread_mutex_unlock(&philos->data->lock);
-        }
-        pthread_mutex_unlock(&philos->lock);
-    }
-	return ((void *) 0);
+	while (philos->data->dead == 0)
+	{
+		pthread_mutex_lock(&philos->lock);
+		if (get_time() >= philos->time_to_die && philos->eating == 0)
+			ft_massages(DIED, philos);
+		if (philos->philo_eat == philos->data->meal_count)
+		{
+			pthread_mutex_lock(&philos->data->lock);
+			philos->data->finished++;
+			philos->philo_eat++;
+			pthread_mutex_unlock(&philos->data->lock);
+		}
+		pthread_mutex_unlock(&philos->lock);
+	}
+	return ((void *)0);
 }
 
 void	*monitor(void *data)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *) data;
+	philo = (t_philo *)data;
 	pthread_mutex_lock(&philo->data->main_mutex);
 	printf("data val: %d", philo->data->dead);
 	pthread_mutex_unlock(&philo->data->main_mutex);
