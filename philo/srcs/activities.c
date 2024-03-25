@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:38:28 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/21 16:30:07 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:43:54 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	putback_forks(t_philo *philos)
 {
-    printf("put back forks\n");
 	pthread_mutex_unlock(philos->left_fork);
 	pthread_mutex_unlock(philos->right_fork);
 	ft_massages(SLEEPING, philos);
@@ -39,17 +38,14 @@ void	ft_massages(char *msg, t_philo *philos)
 
 void	take_forks(t_philo *philos)
 {
-    printf("taking fork\n");
 	pthread_mutex_lock(philos->right_fork);
 	ft_massages(FORK, philos);
 	pthread_mutex_unlock(philos->left_fork);
 	ft_massages(FORK, philos);
-    printf("taking fork successul\n");
 }
 
 void	philo_eating(t_philo *philos)
 {
-    printf("philo eating \n");
 	take_forks(philos);
 	pthread_mutex_lock(&philos->lock);
 	philos->eating = 1;

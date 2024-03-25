@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/21 15:51:18 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:48:44 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,18 @@ int	ft_usleep(useconds_t time)
 	return (0);
 }
 
-long long	get_time(void)
+long long get_time(void)
 {
-	struct timeval	cur_time;
-	long long		msec;
+    struct timeval cur_time;
+    long long msec;
 
-	if (gettimeofday(&cur_time, NULL))
-		return (error_msg("gettimeofday failed\n", NULL));
-	msec = (cur_time.tv_sec / 1000) + (cur_time.tv_usec * 1000);
-	return (msec);
+    if (gettimeofday(&cur_time, NULL) != 0)
+	{
+        ft_putstr_fd("gettimeofday", 2);
+        return -1;
+    }
+    msec = (cur_time.tv_sec * 1000LL) + (cur_time.tv_usec / 1000LL);
+    return msec;
 }
 
 int	ft_atoi(const char *str)

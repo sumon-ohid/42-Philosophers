@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/21 16:35:36 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:43:27 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	*manager(void *data)
 	philos = (void *)data;
     while (philos->data->dead == 0)
     {
-        printf("manager\n");
         pthread_mutex_lock(&philos->lock);
         if (get_time() >= philos->time_to_die && philos->eating == 0)
             ft_massages(DIED, philos);
@@ -53,7 +52,6 @@ void	*monitor(void *data)
 	t_philo	*philos;
 
 	philos = (t_philo *)data;
-    printf("monitor\n");
 	pthread_mutex_lock(&philos->data->main_mutex);
 	printf("data val: %d", philos->data->dead);
 	pthread_mutex_unlock(&philos->data->main_mutex);
@@ -77,7 +75,6 @@ void	*routine(void *arg)
 		return ((void *)1);
 	while (philos->data->dead == 0)
 	{
-        printf("routine\n");
 		philo_eating(philos);
 		ft_massages(THINKING, philos);
 	}
@@ -100,17 +97,14 @@ int	create_threads(t_data *data)
 	}
 	while (i < data->philo_count)
 	{
-        printf("create thread\n");
 		if (pthread_create(&data->t_id[i], NULL, routine, &data->philos[i]))
 			return (error_msg("pthread create failed\n", data));
 		ft_usleep(1);
 		i++;
 	}
-    printf("after create thread\n");
 	i = 0;
 	while (i < data->philo_count)
 	{
-        printf("join thread\n");
 		if (pthread_join(data->t_id[i], NULL))
 			return (error_msg("pthread join failed\n", data));
 		i++;

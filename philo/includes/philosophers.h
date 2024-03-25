@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/21 16:34:54 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:44:25 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_philo
 	int				time_to_die;
 	int				eating;
 	int				status;
-	int				philo_died;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;

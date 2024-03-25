@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/21 16:35:05 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:43:34 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int ac, char **av)
 		data_init(&data, ac, av);
 		if (data.philo_count == 1)
 			return (one_philo(&data));
-        printf("I am here --- end\n");
 		create_threads(&data);
         mutex_destroyer(&data);
 	}
