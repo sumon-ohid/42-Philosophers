@@ -39,9 +39,9 @@ void	ft_massages(char *msg, t_philo *philos)
 void	take_forks(t_philo *philos)
 {
 	pthread_mutex_lock(philos->right_fork);
-	ft_massages(FORK, philos);
-	pthread_mutex_unlock(philos->left_fork);
-	ft_massages(FORK, philos);
+	ft_massages(TAKEN_FORK, philos);
+	pthread_mutex_lock(philos->left_fork);
+	ft_massages(TAKEN_FORK, philos);
 }
 
 void	philo_eating(t_philo *philos)

@@ -1,6 +1,6 @@
 # Makefile for Philosophers project
 CC 		= cc
-CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -g -pthread
+CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -pthread
 NAME 	= philo
 HEADER	= philosophers.h
 
@@ -22,7 +22,7 @@ RESET 	= \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -lpthread $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)--> philo is created <-- $(RESET)"
 	@echo "$(BLUE)(hint :) ./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep]$(RESET)"
 

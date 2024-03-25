@@ -32,22 +32,22 @@ int	ft_usleep(useconds_t time)
 	int	start;
 
 	start = get_time();
-	while (get_time() - start < time)
+	while (get_time() - start < (int) time)
 		usleep(time / 10);
 	return (0);
 }
 
-long long get_time(void)
+int get_time(void)
 {
     struct timeval cur_time;
-    long long msec;
+    int msec;
 
     if (gettimeofday(&cur_time, NULL) != 0)
 	{
         ft_putstr_fd("gettimeofday", 2);
         return -1;
     }
-    msec = (cur_time.tv_sec * 1000LL) + (cur_time.tv_usec / 1000LL);
+    msec = ((cur_time.tv_sec * 1000LL) + (cur_time.tv_usec / 1000LL));
     return msec;
 }
 

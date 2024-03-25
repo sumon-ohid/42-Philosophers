@@ -19,7 +19,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define FORK "has taken a fork"
+# define TAKEN_FORK "has taken a fork"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
@@ -68,7 +68,7 @@ void				ft_putstr_fd(char *str, int fd);
 int					ft_atoi(const char *str);
 long				ft_atol(char *str);
 int					ft_isdigit(int c);
-long long			get_time(void);
+int					get_time(void);
 int					ft_usleep(useconds_t time);
 int					ft_strcmp(char *s1, char *s2);
 

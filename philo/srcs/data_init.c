@@ -12,7 +12,7 @@
 
 #include "../includes/philosophers.h"
 
-int	mutex_init(t_data *data)
+int	fork_mutex_init(t_data *data)
 {
 	int	i;
 
@@ -55,9 +55,9 @@ int	philo_init(t_data *data)
 	i = 0;
 	while (i < data->philo_count)
 	{
+		data->philos[i].data = data;
 		data->philos[i].id = i + 1;
 		data->philos[i].time_to_die = data->time_to_die;
-		data->philos[i].data = data;
 		data->philos[i].philo_eat = 0;
 		data->philos[i].eating = 0;
 		data->philos[i].status = 0;
@@ -73,20 +73,18 @@ int	data_init(t_data *data, int ac, char **av)
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
-	data->dead = 0;
-	data->start_time = 0;
-	data->forks = data->philo_count;
+	data->meal_count = -1;
 	if (ac == 6)
 		data->meal_count = ft_atoi(av[5]);
-	else
-		data->meal_count = -1;
-	pthread_mutex_init(&data->main_mutex, NULL);
-	pthread_mutex_init(&data->lock, NULL);
+	data->dead = 0;
+	data->finished = 0;
 	if (alloc_mem(data))
 		return (1);
-	if (mutex_init(data))
+	if (fork_mutex_init(data))
 		return (1);
 	if (philo_init(data))
 		return (1);
+	pthread_mutex_init(&data->main_mutex, NULL);
+	pthread_mutex_init(&data->lock, NULL);
 	return (0);
 }

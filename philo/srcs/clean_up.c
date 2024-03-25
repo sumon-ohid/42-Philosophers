@@ -18,6 +18,8 @@ void	free_data(t_data *data)
 		free(data->t_id);
 	if (data->philos)
 		free(data->philos);
+	if (data->fork_mutex)
+		free(data->fork_mutex);
 }
 
 int	mutex_destroyer(t_data *data)

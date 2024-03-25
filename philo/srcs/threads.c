@@ -15,7 +15,7 @@
 int	one_philo(t_data *data)
 {
 	data->start_time = get_time();
-	if (pthread_create(&data->t_id[0], NULL, routine, &data->philos[0]))
+	if (pthread_create(&data->t_id[0], NULL, &routine, &data->philos[0]))
 		return (1);
 	if (pthread_detach(data->t_id[0]))
 		return (1);
@@ -29,7 +29,7 @@ void	*manager(void *data)
 {
 	t_philo	*philos;
 
-	philos = (void *)data;
+	philos = (t_philo *)data;
     while (philos->data->dead == 0)
     {
         pthread_mutex_lock(&philos->lock);
@@ -42,43 +42,43 @@ void	*manager(void *data)
             philos->philo_eat++;
             pthread_mutex_unlock(&philos->data->lock);
         }
-        pthread_mutex_unlock(&philos->data->lock);
+        pthread_mutex_unlock(&philos->lock);
     }
 	return ((void *) 0);
 }
 
 void	*monitor(void *data)
 {
-	t_philo	*philos;
+	t_philo	*philo;
 
-	philos = (t_philo *)data;
-	pthread_mutex_lock(&philos->data->main_mutex);
-	printf("data val: %d", philos->data->dead);
-	pthread_mutex_unlock(&philos->data->main_mutex);
-	while (philos->data->dead == 0)
+	philo = (t_philo *) data;
+	pthread_mutex_lock(&philo->data->main_mutex);
+	printf("data val: %d", philo->data->dead);
+	pthread_mutex_unlock(&philo->data->main_mutex);
+	while (philo->data->dead == 0)
 	{
-		pthread_mutex_lock(&philos->data->lock);
-		if (philos->data->finished >= philos->data->philo_count)
-			philos->data->dead = 1;
-		pthread_mutex_unlock(&philos->data->lock);
+		pthread_mutex_lock(&philo->lock);
+		if (philo->data->finished >= philo->data->philo_count)
+			philo->data->dead = 1;
+		pthread_mutex_unlock(&philo->lock);
 	}
-	return ((void *) 0);
+	return ((void *)0);
 }
 
 void	*routine(void *arg)
 {
-	t_philo	*philos;
+	t_philo	*philo;
 
-	philos = (t_philo *)arg;
-	philos->time_to_die = philos->data->time_to_die + get_time();
-	if (pthread_create(&philos->ph_id, NULL, manager, (void *)philos))
+	philo = (t_philo *)arg;
+	philo->time_to_die = get_time() + philo->data->time_to_die;
+	if (pthread_create(&philo->ph_id, NULL, &manager, (void *)philo))
 		return ((void *)1);
-	while (philos->data->dead == 0)
+	while (philo->data->dead == 0)
 	{
-		philo_eating(philos);
-		ft_massages(THINKING, philos);
+		philo_eating(philo);
+		ft_massages(THINKING, philo);
 	}
-	if (pthread_join(philos->ph_id, NULL))
+	if (pthread_join(philo->ph_id, NULL))
 		return ((void *)1);
 	return ((void *)0);
 }
@@ -86,18 +86,18 @@ void	*routine(void *arg)
 int	create_threads(t_data *data)
 {
 	int			i;
-	pthread_t	tread_id;
+	pthread_t	thread_id;
 
 	i = 0;
 	data->start_time = get_time();
 	if (data->meal_count > 0)
 	{
-		if (pthread_create(&tread_id, NULL, monitor, &data->philos[0]))
+		if (pthread_create(&thread_id, NULL, &monitor, &data->philos[0]))
 			return (error_msg("pthread_create failed\n", data));
 	}
 	while (i < data->philo_count)
 	{
-		if (pthread_create(&data->t_id[i], NULL, routine, &data->philos[i]))
+		if (pthread_create(&data->t_id[i], NULL, &routine, &data->philos[i]))
 			return (error_msg("pthread create failed\n", data));
 		ft_usleep(1);
 		i++;
