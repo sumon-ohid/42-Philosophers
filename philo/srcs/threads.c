@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 16:44:26 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 16:56:07 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	*handle_one_philo(void *arg)
 	ft_massages(TAKEN_FORK, philo);
 	pthread_mutex_unlock(philo->right_fork);
 	ft_usleep(1);
+	pthread_join(philo->ph_id, NULL);
 	return ((void *)0);
 }
 
@@ -37,7 +38,7 @@ int	one_philo(t_data *data)
 		return (error_msg("one philo pthread_detach failed", data));
 	while (data->dead == 0)
 		ft_usleep(0);
-	free(data->t_id);
+	free_data(data);
 	return (0);
 }
 
