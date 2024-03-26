@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 14:29:26 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 15:50:15 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	one_philo(t_data *data)
 {
 	data->start_time = get_time();
 	if (pthread_create(&data->t_id[0], NULL, &routine, &data->philos[0]))
-		return (1);
+		return (error_msg("one philo pthread_create failed", data));
 	if (pthread_detach(data->t_id[0]))
-		return (1);
+		return (error_msg("one philo pthread_detach failed", data));
 	while (data->dead == 0)
 		ft_usleep(0);
 	mutex_destroyer(data);

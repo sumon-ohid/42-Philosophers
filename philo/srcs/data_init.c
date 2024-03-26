@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:31:00 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 12:28:57 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 16:06:47 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,20 @@ int	alloc_mem(t_data *data)
 {
 	data->fork_mutex = malloc(sizeof(pthread_mutex_t) * data->philo_count);
 	if (!data->fork_mutex)
-		return (error_msg("Error: Malloc failed.\n", data));
+		return (error_msg("Error: Malloc failed.\n", NULL));
 	data->t_id = malloc(sizeof(pthread_t) * data->philo_count);
-	if (!data->fork_mutex)
-		return (error_msg("Error: Malloc failed.\n", data));
+	if (!data->t_id)
+	{
+		free(data->fork_mutex);
+		return (error_msg("Error: Malloc failed.\n", NULL));
+	}
 	data->philos = malloc(sizeof(t_philo) * data->philo_count);
 	if (!data->philos)
-		return (error_msg("Error: Malloc failed.\n", data));
+	{
+		free(data->fork_mutex);
+		free(data->t_id);
+		return (error_msg("Error: Malloc failed.\n", NULL));
+	}
 	return (0);
 }
 
@@ -67,7 +74,7 @@ int	philo_init(t_data *data)
 	return (0);
 }
 
-int main_data_init(t_data *data, int ac, char **av)
+int	main_data_init(t_data *data, int ac, char **av)
 {
 	data->philo_count = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
