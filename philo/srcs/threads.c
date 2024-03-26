@@ -6,22 +6,38 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 15:50:15 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 16:44:26 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+void	*handle_one_philo(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	philo->time_to_die = get_time() + philo->data->time_to_die;
+	if (pthread_create(&philo->ph_id, NULL, &manager, (void *)philo))
+		return ((void *)1);
+	pthread_mutex_lock(philo->right_fork);
+	ft_massages(TAKEN_FORK, philo);
+	pthread_mutex_unlock(philo->right_fork);
+	ft_usleep(1);
+	return ((void *)0);
+}
+
 int	one_philo(t_data *data)
 {
 	data->start_time = get_time();
-	if (pthread_create(&data->t_id[0], NULL, &routine, &data->philos[0]))
+	if (pthread_create(&data->t_id[0], NULL, &handle_one_philo,
+			&data->philos[0]))
 		return (error_msg("one philo pthread_create failed", data));
-	if (pthread_detach(data->t_id[0]))
+	if (pthread_join(data->t_id[0], NULL))
 		return (error_msg("one philo pthread_detach failed", data));
 	while (data->dead == 0)
 		ft_usleep(0);
-	mutex_destroyer(data);
+	free(data->t_id);
 	return (0);
 }
 
