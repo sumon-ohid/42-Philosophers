@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 12:14:16 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 08:07:00 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->time_to_die = get_time() + philo->data->time_to_die;
 	if (pthread_create(&philo->ph_id, NULL, &manager, (void *)philo))
 		return ((void *)1);
 	while (philo->data->dead == 0)
 	{
+		philo->time_to_die = get_time() + philo->data->time_to_die;
 		philo_eating(philo);
 		ft_massages(THINKING, philo);
 	}

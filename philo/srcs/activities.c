@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:38:28 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 12:15:48 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 07:57:56 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	ft_usleep(useconds_t time)
 
 void	putback_forks(t_philo *philos)
 {
-	pthread_mutex_unlock(philos->left_fork);
 	pthread_mutex_unlock(philos->right_fork);
+	pthread_mutex_unlock(philos->left_fork);
 	ft_massages(SLEEPING, philos);
 	ft_usleep(philos->data->time_to_sleep);
 }
