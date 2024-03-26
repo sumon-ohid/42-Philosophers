@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 18:21:11 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 19:14:16 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	*monitor(void *data)
 	philo = (t_philo *)data;
 	while (philo->data->dead == 0)
 	{
-		pthread_mutex_lock(&philo->lock);
+		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->philo_finished_eating >= philo->data->philo_count)
 			philo->data->dead = 1;
-		pthread_mutex_unlock(&philo->lock);
+		pthread_mutex_unlock(&philo->data->lock);
 	}
 	return ((void *)0);
 }
@@ -84,16 +84,17 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->data->lock);
 	philo->time_to_die = get_time() + philo->data->time_to_die;
+	pthread_mutex_unlock(&philo->data->lock);
 	if (pthread_create(&philo->ph_id, NULL, &manager, (void *)philo))
 		return ((void *)1);
+	pthread_detach(philo->ph_id);
 	while (philo->data->dead == 0)
 	{
 		philo_eating(philo);
 		ft_massages(THINKING, philo);
 	}
-	if (pthread_join(philo->ph_id, NULL))
-		return ((void *)1);
 	ft_usleep(1);
 	return ((void *)0);
 }
@@ -109,6 +110,7 @@ int	create_threads(t_data *data)
 	{
 		if (pthread_create(&thread_id, NULL, &monitor, &data->philos[0]))
 			return (error_msg("pthread_create failed\n", data));
+		pthread_detach(thread_id);
 	}
 	while (i < data->philo_count)
 	{
