@@ -67,7 +67,7 @@ int	philo_init(t_data *data)
 	return (0);
 }
 
-int	data_init(t_data *data, int ac, char **av)
+int main_data_init(t_data *data, int ac, char **av)
 {
 	data->philo_count = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -78,13 +78,20 @@ int	data_init(t_data *data, int ac, char **av)
 		data->meal_count = ft_atoi(av[5]);
 	data->dead = 0;
 	data->finished = 0;
+	pthread_mutex_init(&data->main_mutex, NULL);
+	pthread_mutex_init(&data->lock, NULL);
+	return (0);
+}
+
+int	data_init(t_data *data, int ac, char **av)
+{
+	if (main_data_init(data, ac, av))
+		return (1);
 	if (alloc_mem(data))
 		return (1);
 	if (fork_mutex_init(data))
 		return (1);
 	if (philo_init(data))
 		return (1);
-	pthread_mutex_init(&data->main_mutex, NULL);
-	pthread_mutex_init(&data->lock, NULL);
 	return (0);
 }
