@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 16:56:07 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 18:21:11 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	*manager(void *data)
 		if (philos->philo_eat == philos->data->meal_count)
 		{
 			pthread_mutex_lock(&philos->data->lock);
-			philos->data->finished++;
+			philos->data->philo_finished_eating++;
 			philos->philo_eat++;
 			pthread_mutex_unlock(&philos->data->lock);
 		}
@@ -72,7 +72,7 @@ void	*monitor(void *data)
 	while (philo->data->dead == 0)
 	{
 		pthread_mutex_lock(&philo->lock);
-		if (philo->data->finished >= philo->data->philo_count)
+		if (philo->data->philo_finished_eating >= philo->data->philo_count)
 			philo->data->dead = 1;
 		pthread_mutex_unlock(&philo->lock);
 	}

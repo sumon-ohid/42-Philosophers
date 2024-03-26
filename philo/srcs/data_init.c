@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:31:00 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 16:29:26 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 18:09:51 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main_data_init(t_data *data, int ac, char **av)
 	if (ac == 6)
 		data->meal_count = ft_atoi(av[5]);
 	data->dead = 0;
-	data->finished = 0;
+	data->philo_finished_eating = 0;
 	pthread_mutex_init(&data->main_mutex, NULL);
 	pthread_mutex_init(&data->lock, NULL);
 	return (0);

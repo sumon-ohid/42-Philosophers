@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 16:50:17 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 18:09:32 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_data
 	pthread_t		*t_id;
 	long long		start_time;
 	int				dead;
-	int				finished;
+	int				philo_finished_eating;
 	int				philo_count;
 	int				time_to_die;
 	int				time_to_eat;

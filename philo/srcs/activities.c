@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:38:28 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 16:20:32 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 18:21:49 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_usleep(useconds_t time)
 
 	start = get_time();
 	while (get_time() - start < (int)time)
-		usleep(time);
+		usleep(time / 10);
 	return (0);
 }
 
