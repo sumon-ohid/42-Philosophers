@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 14:01:33 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 14:29:26 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	*routine(void *arg)
 	}
 	if (pthread_join(philo->ph_id, NULL))
 		return ((void *)1);
+	ft_usleep(1);
 	return ((void *)0);
 }
 
