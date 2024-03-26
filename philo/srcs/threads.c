@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:18:12 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 08:07:00 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/26 14:01:33 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ void	*monitor(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	pthread_mutex_lock(&philo->data->main_mutex);
-	printf("data val: %d", philo->data->dead);
-	pthread_mutex_unlock(&philo->data->main_mutex);
 	while (philo->data->dead == 0)
 	{
 		pthread_mutex_lock(&philo->lock);
@@ -70,11 +67,11 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->time_to_die = get_time() + philo->data->time_to_die;
 	if (pthread_create(&philo->ph_id, NULL, &manager, (void *)philo))
 		return ((void *)1);
 	while (philo->data->dead == 0)
 	{
-		philo->time_to_die = get_time() + philo->data->time_to_die;
 		philo_eating(philo);
 		ft_massages(THINKING, philo);
 	}
