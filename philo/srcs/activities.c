@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/27 15:40:38 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:06:06 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ void	putback_forks(t_philo *philo)
 	if (philo->philo_id % 2 == 0)
 	{
 		pthread_mutex_unlock(philo->left_fork);
-		monitoring(philo, DROPPED_FORK);
+		monitoring(philo, TAKEN_FORK);
 		pthread_mutex_unlock(philo->right_fork);
-		monitoring(philo, DROPPED_FORK);
+		monitoring(philo, TAKEN_FORK);
 	}
 	else
 	{
 		pthread_mutex_unlock(philo->right_fork);
-		monitoring(philo, DROPPED_FORK);
+		monitoring(philo, TAKEN_FORK);
 		pthread_mutex_unlock(philo->left_fork);
-		monitoring(philo, DROPPED_FORK);
+		monitoring(philo, TAKEN_FORK);
 	}
 }
 

@@ -1,6 +1,6 @@
 # Makefile for Philosophers project
 CC 		= cc
-CFLAGS 	= -Wall -Wextra -Werror #-MMD -MP -g -fsanitize=thread
+CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -g #-fsanitize=thread
 NAME 	= philo
 HEADER	= philosophers.h
 
