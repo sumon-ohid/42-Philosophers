@@ -5,65 +5,72 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:38:28 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/26 18:21:49 by msumon           ###   ########.fr       */
+/*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
+/*   Updated: 2024/03/27 15:40:38 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	ft_usleep(useconds_t time)
+void	monitoring(t_philo *philo, char *msg)
 {
-	int	start;
+	useconds_t	timestamp;
 
-	start = get_time();
-	while (get_time() - start < (int)time)
-		usleep(time / 10);
-	return (0);
-}
-
-void	putback_forks(t_philo *philos)
-{
-	pthread_mutex_unlock(philos->right_fork);
-	pthread_mutex_unlock(philos->left_fork);
-	ft_massages(SLEEPING, philos);
-	ft_usleep(philos->data->time_to_sleep);
-}
-
-void	ft_massages(char *msg, t_philo *philos)
-{
-	int	time;
-
-	pthread_mutex_lock(&philos->data->main_mutex);
-	time = get_time() - philos->data->start_time;
-	if (ft_strcmp(DIED, msg) == 0 && philos->data->dead == 0)
+	pthread_mutex_lock(&philo->data->monitoring_mutex);
+	if (philo->data->simulation_end)
 	{
-		printf("%d %d %s\n", time, philos->id, msg);
-		philos->data->dead = 1;
+		pthread_mutex_unlock(&philo->data->monitoring_mutex);
+		return ;
 	}
-	if (!philos->data->dead)
-		printf("%d %d %s\n", time, philos->id, msg);
-	pthread_mutex_unlock(&philos->data->main_mutex);
+	timestamp = get_time() - philo->start_time;
+	printf("%d %d %s", timestamp, philo->philo_id, msg);
+	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 }
 
-void	take_forks(t_philo *philos)
+void	putback_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philos->right_fork);
-	ft_massages(TAKEN_FORK, philos);
-	pthread_mutex_lock(philos->left_fork);
-	ft_massages(TAKEN_FORK, philos);
+	if (philo->philo_id % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		monitoring(philo, DROPPED_FORK);
+		pthread_mutex_unlock(philo->right_fork);
+		monitoring(philo, DROPPED_FORK);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		monitoring(philo, DROPPED_FORK);
+		pthread_mutex_unlock(philo->left_fork);
+		monitoring(philo, DROPPED_FORK);
+	}
 }
 
-void	philo_eating(t_philo *philos)
+void	pick_forks(t_philo *philo)
 {
-	take_forks(philos);
-	pthread_mutex_lock(&philos->lock);
-	philos->eating = 1;
-	philos->time_to_die = get_time() + philos->data->time_to_die;
-	ft_massages(EATING, philos);
-	philos->philo_eat++;
-	ft_usleep(philos->data->time_to_eat);
-	philos->eating = 0;
-	pthread_mutex_unlock(&philos->lock);
-	putback_forks(philos);
+	if (philo->philo_id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		monitoring(philo, TAKEN_FORK);
+		pthread_mutex_lock(philo->right_fork);
+		monitoring(philo, TAKEN_FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->right_fork);
+		monitoring(philo, TAKEN_FORK);
+		pthread_mutex_lock(philo->left_fork);
+		monitoring(philo, TAKEN_FORK);
+	}
+}
+
+void	eating_action(t_philo *philo)
+{
+	pick_forks(philo);
+	pthread_mutex_lock(&philo->data->monitoring_mutex);
+	philo->last_meal_time = get_time();
+	philo->meals_eaten += 1;
+	pthread_mutex_unlock(&philo->data->monitoring_mutex);
+	monitoring(philo, EATING);
+	usleep(philo->data->time_to_eat * 1000);
+	putback_forks(philo);
 }

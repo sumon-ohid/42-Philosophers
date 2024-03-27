@@ -6,39 +6,31 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/25 12:15:43 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/27 15:37:06 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-	int	j;
+// void	ft_usleep(int time)
+// {
+// 	long int	start;
 
-	i = 0;
-	j = 0;
-	while (s1[i] && s2[j])
-	{
-		i++;
-		j++;
-	}
-	return (s1[i] - s2[j]);
-}
+// 	start = get_time();
+// 	while (get_time() - start < time)
+// 		usleep(time / 10);
+// }
 
-int	get_time(void)
+useconds_t	get_time(void)
 {
 	struct timeval	cur_time;
-	int				msec;
 
 	if (gettimeofday(&cur_time, NULL) != 0)
 	{
 		ft_putstr_fd("gettimeofday", 2);
 		return (-1);
 	}
-	msec = ((cur_time.tv_sec * 1000LL) + (cur_time.tv_usec / 1000LL));
-	return (msec);
+	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));
 }
 
 int	ft_atoi(const char *str)
