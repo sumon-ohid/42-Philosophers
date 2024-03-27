@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/27 15:56:45 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:40:43 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	watch_tower(t_data *data, t_philo *philos)
 		if (philo_is_full == data->philo_count)
 		{
 			data->simulation_end = true;
-			printf("Every Philosopher had %d meals!\n", data->must_eat_times);
 			pthread_mutex_unlock(&data->monitoring_mutex);
 			return ;
 		}
