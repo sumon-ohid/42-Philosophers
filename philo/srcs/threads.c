@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/27 16:40:43 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/28 09:37:52 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*routine(void *args)
 
 bool	check_if_dead(t_data *data, t_philo *philo, int *philo_is_full)
 {
-	if (data->must_eat_times > 0 && philo->meals_eaten >= data->must_eat_times)
+	if (data->must_eat_times > 0 && philo->meals_eaten > data->must_eat_times)
 		*philo_is_full += 1;
 	if (get_time()
 		- philo->last_meal_time >= (useconds_t)philo->data->time_to_die)

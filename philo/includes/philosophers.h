@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/27 15:54:06 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/28 09:18:59 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void				ft_putstr_fd(char *str, int fd);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
 useconds_t			get_time(void);
-void				ft_usleep(int time);
+void				ft_usleep(int time, t_data *data);
 
 // initialization
 int					data_init(t_data *data, char **av);
