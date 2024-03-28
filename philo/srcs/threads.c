@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 09:37:52 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/28 10:18:18 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sleeping_action(t_philo *philo)
 {
 	monitoring(philo, SLEEPING);
-	usleep(philo->data->time_to_sleep * 1000);
+	ft_usleep(philo->data->time_to_sleep, philo->data);
 }
 
 void	*routine(void *args)
@@ -92,7 +92,6 @@ int	create_threads_and_join(t_data *data, t_philo *philos,
 {
 	int	i;
 
-	(void)forks;
 	i = 0;
 	while (i < data->philo_count)
 	{
