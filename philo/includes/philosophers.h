@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 09:18:59 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/28 16:52:13 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int					create_threads_and_join(t_data *data, t_philo *philos,
 
 // free and error handling
 void				free_forks(pthread_mutex_t *forks, int i);
-int					error(t_philo *philos, pthread_mutex_t *forks,
+int					error(t_philo *philos, t_data *data, pthread_mutex_t *forks,
 						char *error_msg);
 
 #endif

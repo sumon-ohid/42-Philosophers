@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 09:21:10 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/28 17:16:01 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ void	ft_usleep(int time, t_data *data)
 			return ;
 		}
 		pthread_mutex_unlock(&data->monitoring_mutex);
-		usleep(100);
+		if (usleep(100))
+		{
+			ft_putstr_fd("usleep failed.\n", 2);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -36,8 +40,8 @@ useconds_t	get_time(void)
 
 	if (gettimeofday(&cur_time, NULL) != 0)
 	{
-		ft_putstr_fd("gettimeofday", 2);
-		return (1);
+		ft_putstr_fd("gettimeofday failed.\n", 2);
+		exit(EXIT_FAILURE);
 	}
 	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));
 }

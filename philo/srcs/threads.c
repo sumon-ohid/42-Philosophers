@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 10:18:18 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/28 17:06:17 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,21 @@ int	create_threads_and_join(t_data *data, t_philo *philos,
 		pthread_mutex_t *forks)
 {
 	int	i;
+	int j;
 
+	j = 0;
 	i = 0;
+	(void)forks;
 	while (i < data->philo_count)
 	{
 		philos[i].start_time = get_time();
-		if (pthread_create(&philos[i].thread_id, NULL, routine,
-				(void *)&philos[i]) != 0)
-			return (error(philos, forks, "Error: Thread creation failed\n"));
+		if (pthread_create(&philos[i].thread_id, NULL, routine, &philos[i]) != 0)
+		{
+			while (j < i)
+				if (pthread_join(philos[i--].thread_id, NULL))
+					return (1);
+			return (1);
+		}
 		i++;
 	}
 	watch_tower(data, philos);
@@ -106,7 +113,7 @@ int	create_threads_and_join(t_data *data, t_philo *philos,
 	while (i < data->philo_count)
 	{
 		if (pthread_join(philos[i].thread_id, NULL) != 0)
-			return (error(philos, forks, "Error: Thread join failed\n"));
+			return (1);
 		i++;
 	}
 	return (0);
