@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 13:28:59 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:48:49 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (create_threads_and_join(&data, philos, 0))
-		return (error(philos, &data, data.forks, "ctreate and join failed"));
+		return (error(philos, &data, data.forks, "create and join failed"));
 	destroy_data(&data, data.forks, philos);
 	return (0);
 }
