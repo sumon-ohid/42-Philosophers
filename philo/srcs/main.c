@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 17:07:56 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 10:13:09 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,22 @@ int	main(int ac, char **av)
 {
 	t_data			data;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
 
 	if (syntax_checker(av, ac))
 		return (1);
 	if (data_init(&data, av))
 		return (1);
-	forks = init_forks(&data);
-	if (!forks)
+	data.forks = init_forks(&data);
+	if (!data.forks)
 		return (1);
-	philos = init_philos(&data, forks);
+	philos = init_philos(&data, data.forks);
 	if (!philos)
 	{
-		free_forks(forks, data.philo_count - 1);
+		free_forks(data.forks, data.philo_count - 1);
 		return (1);
 	}
-	if (create_threads_and_join(&data, philos, forks))
+	if (create_threads_and_join(&data, philos, data.forks))
 	    return (1);
-	destroy_data(&data, forks, philos);
+	destroy_data(&data, data.forks, philos);
 	return (0);
 }

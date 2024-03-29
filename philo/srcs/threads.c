@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 17:06:17 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 10:47:23 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	check_if_dead(t_data *data, t_philo *philo, int *philo_is_full)
 {
 	if (data->must_eat_times > 0 && philo->meals_eaten > data->must_eat_times)
 		*philo_is_full += 1;
-	if (get_time()
+	if (get_time(data, philo)
 		- philo->last_meal_time >= (useconds_t)philo->data->time_to_die)
 	{
 		pthread_mutex_unlock(&data->monitoring_mutex);
@@ -98,7 +98,7 @@ int	create_threads_and_join(t_data *data, t_philo *philos,
 	(void)forks;
 	while (i < data->philo_count)
 	{
-		philos[i].start_time = get_time();
+		philos[i].start_time = get_time(data, philos);
 		if (pthread_create(&philos[i].thread_id, NULL, routine, &philos[i]) != 0)
 		{
 			while (j < i)

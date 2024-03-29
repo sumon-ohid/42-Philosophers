@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 10:06:04 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 10:37:04 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	monitoring(t_philo *philo, char *msg)
 		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		return ;
 	}
-	timestamp = get_time() - philo->start_time;
+	timestamp = get_time(philo->data, philo) - philo->start_time;
 	printf("%d %d %s", timestamp, philo->philo_id, msg);
 	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 }
@@ -63,7 +63,7 @@ void	eating_action(t_philo *philo)
 {
 	pick_forks(philo);
 	pthread_mutex_lock(&philo->data->monitoring_mutex);
-	philo->last_meal_time = get_time();
+	philo->last_meal_time = get_time(philo->data, philo);
 	philo->meals_eaten += 1;
 	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 	monitoring(philo, EATING);

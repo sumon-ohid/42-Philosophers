@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/28 16:52:13 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 10:25:57 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,18 @@
 # define THINKING "is thinking\n"
 # define DIED "died\n"
 
+struct s_philo;
+
 typedef struct s_data
 {
+	struct	s_philo *philos;
 	int				philo_count;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_times;
 	bool			simulation_end;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	monitoring_mutex;
 }					t_data;
 
@@ -55,8 +59,8 @@ typedef struct s_philo
 void				ft_putstr_fd(char *str, int fd);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
-useconds_t			get_time(void);
-void				ft_usleep(int time, t_data *data);
+useconds_t			get_time(t_data *data, t_philo *philos);
+int					ft_usleep(int time, t_data *data);
 
 // initialization
 int					data_init(t_data *data, char **av);
