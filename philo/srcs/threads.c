@@ -6,17 +6,11 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 10:47:23 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:28:35 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-void	sleeping_action(t_philo *philo)
-{
-	monitoring(philo, SLEEPING);
-	ft_usleep(philo->data->time_to_sleep, philo->data);
-}
 
 void	*routine(void *args)
 {
@@ -87,19 +81,16 @@ void	watch_tower(t_data *data, t_philo *philos)
 	}
 }
 
-int	create_threads_and_join(t_data *data, t_philo *philos,
-		pthread_mutex_t *forks)
+int	create_threads_and_join(t_data *data, t_philo *philos, int j)
 {
 	int	i;
-	int j;
 
-	j = 0;
 	i = 0;
-	(void)forks;
 	while (i < data->philo_count)
 	{
 		philos[i].start_time = get_time(data, philos);
-		if (pthread_create(&philos[i].thread_id, NULL, routine, &philos[i]) != 0)
+		if (pthread_create(&philos[i].thread_id, NULL, routine,
+				&philos[i]) != 0)
 		{
 			while (j < i)
 				if (pthread_join(philos[i--].thread_id, NULL))

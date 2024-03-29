@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 10:25:57 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:28:53 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@
 # define THINKING "is thinking\n"
 # define DIED "died\n"
 
-struct s_philo;
+struct	s_philo;
 
 typedef struct s_data
 {
-	struct	s_philo *philos;
+	struct s_philo	*philos;
 	int				philo_count;
 	int				time_to_die;
 	int				time_to_eat;
@@ -70,8 +70,9 @@ t_philo				*init_philos(t_data *data, pthread_mutex_t *forks);
 // simulation
 void				monitoring(t_philo *philo, char *msg);
 void				eating_action(t_philo *philo);
+void				sleeping_action(t_philo *philo);
 int					create_threads_and_join(t_data *data, t_philo *philos,
-						pthread_mutex_t *forks);
+						int j);
 
 // free and error handling
 void				free_forks(pthread_mutex_t *forks, int i);

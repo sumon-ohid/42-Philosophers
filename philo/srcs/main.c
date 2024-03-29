@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 10:13:09 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:28:59 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,19 @@ int	syntax_checker(char **av, int ac)
 	return (0);
 }
 
-int	error(t_philo *philos, t_data *data, pthread_mutex_t *forks, char *error_msg)
+int	error(t_philo *philos, t_data *data, pthread_mutex_t *forks,
+		char *error_msg)
 {
 	destroy_data(data, forks, philos);
 	ft_putstr_fd(error_msg, 2);
+	ft_putstr_fd("\n", 2);
 	return (1);
 }
 
 int	main(int ac, char **av)
 {
-	t_data			data;
-	t_philo			*philos;
+	t_data	data;
+	t_philo	*philos;
 
 	if (syntax_checker(av, ac))
 		return (1);
@@ -90,8 +92,8 @@ int	main(int ac, char **av)
 		free_forks(data.forks, data.philo_count - 1);
 		return (1);
 	}
-	if (create_threads_and_join(&data, philos, data.forks))
-	    return (1);
+	if (create_threads_and_join(&data, philos, 0))
+		return (error(philos, &data, data.forks, "ctreate and join failed"));
 	destroy_data(&data, data.forks, philos);
 	return (0);
 }

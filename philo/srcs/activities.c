@@ -6,11 +6,17 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 10:37:04 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:25:36 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+void	sleeping_action(t_philo *philo)
+{
+	monitoring(philo, SLEEPING);
+	ft_usleep(philo->data->time_to_sleep, philo->data);
+}
 
 void	monitoring(t_philo *philo, char *msg)
 {
