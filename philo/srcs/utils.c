@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 11:00:08 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 14:00:52 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_usleep(int time, t_data *data)
 	return (0);
 }
 
-useconds_t	get_time(t_data *data, t_philo *philos)
+long long	get_time(t_data *data, t_philo *philos)
 {
 	struct timeval	cur_time;
 

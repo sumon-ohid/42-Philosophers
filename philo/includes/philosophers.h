@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 13:28:53 by msumon           ###   ########.fr       */
+/*   Updated: 2024/03/29 14:00:26 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_philo
 {
 	int				philo_id;
 	int				meals_eaten;
-	useconds_t		last_meal_time;
-	useconds_t		start_time;
+	long long		last_meal_time;
+	long long		start_time;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -59,7 +59,7 @@ typedef struct s_philo
 void				ft_putstr_fd(char *str, int fd);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
-useconds_t			get_time(t_data *data, t_philo *philos);
+long long			get_time(t_data *data, t_philo *philos);
 int					ft_usleep(int time, t_data *data);
 
 // initialization
