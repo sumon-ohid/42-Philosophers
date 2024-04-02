@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 17:56:26 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/02 09:24:52 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,19 @@ int	create_threads_and_join(t_data *data, t_philo *philos, int j)
 				&philos[i]) != 0)
 		{
 			while (j < i)
-				if (pthread_join(philos[i--].thread_id, NULL))
+				if (pthread_join(philos[j++].thread_id, NULL))
 					return (1);
 			return (1);
 		}
+		usleep(1000);
 		i++;
 	}
 	watch_tower(data, philos);
-	i = 0;
-	while (i < data->philo_count)
+	i = -1;
+	while (++i < data->philo_count)
 	{
 		if (pthread_join(philos[i].thread_id, NULL) != 0)
 			return (1);
-		i++;
 	}
 	return (0);
 }
