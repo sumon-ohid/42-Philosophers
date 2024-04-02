@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/02 09:24:52 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/02 10:56:14 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*routine(void *args)
 
 bool	check_if_dead(t_data *data, t_philo *philo, int *philo_is_full)
 {
-	if (data->must_eat_times > 0 && philo->meals_eaten > data->must_eat_times)
+	if (data->must_eat_times > 0 && philo->meals_eaten >= data->must_eat_times)
 		*philo_is_full += 1;
 	if (get_time(data, philo)
 		- philo->last_meal_time >= philo->data->time_to_die)
@@ -60,10 +60,10 @@ void	watch_tower(t_data *data, t_philo *philos)
 	int	i;
 	int	philo_is_full;
 
-	philo_is_full = 0;
 	while (1)
 	{
 		i = 0;
+		philo_is_full = 0;
 		pthread_mutex_lock(&data->monitoring_mutex);
 		while (i < data->philo_count)
 		{
