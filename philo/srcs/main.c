@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 13:48:49 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/02 12:25:18 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,17 @@ int	main(int ac, char **av)
 	t_philo	*philos;
 
 	if (syntax_checker(av, ac))
-		return (1);
+		return (error(NULL, NULL, NULL, "Error!!"));
 	if (data_init(&data, av))
-		return (1);
+		return (error(NULL, NULL, NULL, "Error!!"));
 	data.forks = init_forks(&data);
 	if (!data.forks)
-		return (1);
+		return (error(NULL, NULL, NULL, "Error!!"));
 	philos = init_philos(&data, data.forks);
 	if (!philos)
 	{
 		free_forks(data.forks, data.philo_count - 1);
-		return (1);
+		return (error(NULL, NULL, NULL, "Error!!"));
 	}
 	if (create_threads_and_join(&data, philos, 0))
 		return (error(philos, &data, data.forks, "create and join failed"));
