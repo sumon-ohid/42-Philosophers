@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/02 15:27:13 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:56:11 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*routine(void *args)
 	philo = (t_philo *)args;
 	if (philo->data->philo_count == 1)
 	{
-		monitoring(philo, TAKEN_FORK);
+		massages(philo, TAKEN_FORK);
 		return (NULL);
 	}
 	while (1)
@@ -33,7 +33,7 @@ void	*routine(void *args)
 		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		eating_action(philo);
 		sleeping_action(philo);
-		monitoring(philo, THINKING);
+		massages(philo, THINKING);
 	}
 	return (NULL);
 }
@@ -46,7 +46,7 @@ bool	check_if_dead(t_data *data, t_philo *philo, int *philo_is_full)
 		- philo->last_meal_time >= philo->data->time_to_die)
 	{
 		pthread_mutex_unlock(&data->monitoring_mutex);
-		monitoring(philo, DIED);
+		massages(philo, DIED);
 		pthread_mutex_lock(&data->monitoring_mutex);
 		data->simulation_end = true;
 		pthread_mutex_unlock(&data->monitoring_mutex);

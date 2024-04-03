@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/03/29 14:00:26 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:56:11 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ pthread_mutex_t		*init_forks(t_data *data);
 t_philo				*init_philos(t_data *data, pthread_mutex_t *forks);
 
 // simulation
-void				monitoring(t_philo *philo, char *msg);
+void				massages(t_philo *philo, char *msg);
 void				eating_action(t_philo *philo);
 void				sleeping_action(t_philo *philo);
 int					create_threads_and_join(t_data *data, t_philo *philos,
