@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:01:49 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/02 12:25:18 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 09:51:02 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,31 @@ void	destroy_data(t_data *data, pthread_mutex_t *forks, t_philo *philos)
 	}
 }
 
-int	syntax_checker(char **av, int ac)
+int	ft_strlen(char *str)
 {
 	int	i;
-	int	j;
-	int	num;
+
+	i = 0;
+	while (*str == '0')
+		str++;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	syntax_checker(char **av, int ac)
+{
+	int		i;
+	int		j;
+	long	num;
 
 	num = 0;
 	i = 1;
 	while (av[i])
 	{
 		j = 0;
+		if (ft_strlen(av[i]) > 11)
+			return (1);
 		num = ft_atoi(av[i]);
 		if (num < 0 || num > INT_MAX)
 			return (1);

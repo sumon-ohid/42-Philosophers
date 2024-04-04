@@ -6,12 +6,11 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/03 13:00:59 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 12:03:50 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-#include <unistd.h>
 
 void	sleeping_action(t_philo *philo)
 {
@@ -50,7 +49,16 @@ void	putback_forks(t_philo *philo)
 
 void	pick_forks(t_philo *philo)
 {
-	if (philo->philo_id % 2 == 0)
+	if (philo->philo_id == philo->data->philo_count && philo->data->philo_count
+		% 2 != 0)
+	{
+		usleep(1000 * 2);
+		pthread_mutex_lock(philo->right_fork);
+		massages(philo, TAKEN_FORK);
+		pthread_mutex_lock(philo->left_fork);
+		massages(philo, TAKEN_FORK);
+	}
+	else if (philo->philo_id % 2 == 0)
 	{
 		usleep(1000);
 		pthread_mutex_lock(philo->left_fork);
@@ -58,7 +66,8 @@ void	pick_forks(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		massages(philo, TAKEN_FORK);
 	}
-	else
+	else if (philo->philo_id != philo->data->philo_count && philo->philo_id
+		% 2 == 1)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		massages(philo, TAKEN_FORK);
