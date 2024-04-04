@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:31:00 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 09:59:22 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:16:26 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 		philos[i].meals_eaten = 0;
 		philos[i].left_fork = &forks[i];
 		philos[i].right_fork = &forks[(i + 1) % data->philo_count];
-		philos[i].last_meal_time = get_time(data, philos);
+		philos[i].last_meal_time = get_time();
 		philos[i].data = data;
 		i++;
 	}

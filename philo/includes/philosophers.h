@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/03 12:56:11 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:17:16 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_philo
 void				ft_putstr_fd(char *str, int fd);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
-long long			get_time(t_data *data, t_philo *philos);
+long long			get_time();
 int					ft_usleep(int time, t_data *data);
 
 // initialization

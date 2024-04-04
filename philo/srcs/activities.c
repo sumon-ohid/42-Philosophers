@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 12:03:50 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:16:20 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	massages(t_philo *philo, char *msg)
 		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		return ;
 	}
-	timestamp = get_time(philo->data, philo) - philo->start_time;
+	timestamp = get_time() - philo->start_time;
 	printf("%lld %d %s", timestamp, philo->philo_id, msg);
 	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 }
@@ -80,7 +80,7 @@ void	eating_action(t_philo *philo)
 {
 	pick_forks(philo);
 	pthread_mutex_lock(&philo->data->monitoring_mutex);
-	philo->last_meal_time = get_time(philo->data, philo);
+	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 	massages(philo, EATING);
 	ft_usleep(philo->data->time_to_eat, philo->data);

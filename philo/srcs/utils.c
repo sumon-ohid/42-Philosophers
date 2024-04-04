@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/02 15:29:34 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:16:47 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	ft_usleep(int time, t_data *data)
 {
 	long int	start;
 
-	start = get_time(data, data->philos);
-	while (get_time(data, data->philos) - start < time)
+	start = get_time();
+	while (get_time() - start < time)
 	{
 		pthread_mutex_lock(&data->monitoring_mutex);
 		if (data->simulation_end)
@@ -35,14 +35,14 @@ int	ft_usleep(int time, t_data *data)
 	return (0);
 }
 
-long long	get_time(t_data *data, t_philo *philos)
+long long	get_time()
 {
 	struct timeval	cur_time;
 
 	if (gettimeofday(&cur_time, NULL))
 	{
-		error(philos, data, data->forks, "gettimeofday failed.");
-		exit(EXIT_FAILURE);
+		ft_putstr_fd("gettimeofday failed.\n", 2);
+		return (1);
 	}
 	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));
 }
