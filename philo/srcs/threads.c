@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 20:16:38 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 21:18:50 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	watch_tower(t_data *data, t_philo *philos)
 			return ;
 		}
 		pthread_mutex_unlock(&data->monitoring_mutex);
-		usleep(100);
 	}
 }
 
