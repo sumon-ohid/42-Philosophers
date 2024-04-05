@@ -6,15 +6,15 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 20:16:47 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/05 00:13:38 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	ft_usleep(int time, t_data *data)
+void	ft_usleep(long unsigned int time, t_data *data)
 {
-	long int	start;
+	long unsigned int	start;
 
 	start = get_time();
 	while (get_time() - start < time)
@@ -23,28 +23,31 @@ int	ft_usleep(int time, t_data *data)
 		if (data->simulation_end)
 		{
 			pthread_mutex_unlock(&data->monitoring_mutex);
-			return (1);
+			return ;
 		}
 		pthread_mutex_unlock(&data->monitoring_mutex);
-		if (usleep(100))
-		{
-			ft_putstr_fd("usleep failed.\n", 2);
-			return (1);
-		}
+		usleep(100);
 	}
-	return (0);
 }
 
-long long	get_time()
+long unsigned int	get_time()
 {
-	struct timeval	cur_time;
+	static long					start_time = 0;
+	long unsigned int			actual_time;
+	struct timeval				tv;
 
-	if (gettimeofday(&cur_time, NULL))
+	if (start_time == 0)
 	{
-		ft_putstr_fd("gettimeofday failed.\n", 2);
-		return (1);
+		gettimeofday(&tv, NULL);
+		start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+		actual_time = 0;
 	}
-	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));
+	else
+	{
+		gettimeofday(&tv, NULL);
+		actual_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - start_time;
+	}
+	return (actual_time);
 }
 
 int	ft_atoi(const char *str)

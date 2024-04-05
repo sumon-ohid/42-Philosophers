@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 20:17:16 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 23:40:03 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_philo
 {
 	int				philo_id;
 	int				meals_eaten;
-	long long		last_meal_time;
-	long long		start_time;
+	long unsigned	int	last_meal_time;
+	long unsigned	int	start_time;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -59,8 +59,8 @@ typedef struct s_philo
 void				ft_putstr_fd(char *str, int fd);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
-long long			get_time();
-int					ft_usleep(int time, t_data *data);
+long unsigned int	get_time();
+void				ft_usleep(long unsigned int time, t_data *data);
 
 // initialization
 int					data_init(t_data *data, char **av);
@@ -73,6 +73,7 @@ void				eating_action(t_philo *philo);
 void				sleeping_action(t_philo *philo);
 int					create_threads_and_join(t_data *data, t_philo *philos,
 						int j);
+int  				check_status(t_philo *philo);
 
 // free and error handling
 void				free_forks(pthread_mutex_t *forks, int i);

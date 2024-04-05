@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:31:00 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 21:09:58 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/05 00:11:38 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	fork_assignment(t_philo *philos, pthread_mutex_t *forks, t_data *data)
 
 t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 {
-	t_philo	*philos;
-	int		i;
+	t_philo		*philos;
+	int			i;
 
 	philos = (t_philo *)malloc(sizeof(t_philo) * data->philo_count);
 	if (!philos)
@@ -74,6 +74,7 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 	{
 		philos[i].philo_id = i + 1;
 		philos[i].meals_eaten = 0;
+		philos[i].start_time = 0;
 		philos[i].last_meal_time = get_time();
 		philos[i].data = data;
 		i++;
