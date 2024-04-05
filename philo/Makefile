@@ -5,10 +5,11 @@ NAME 	= philo
 HEADER	= philosophers.h
 
 SRCS 	= 	srcs/main.c \
-			srcs/threads.c \
+			srcs/routine.c \
 			srcs/utils.c \
 			srcs/activities.c \
 			srcs/data_init.c \
+			srcs/create_join.c \
 
 OBJS 	= $(SRCS:.c=.o)
 DEPS	= $(OBJS:.o=.d)

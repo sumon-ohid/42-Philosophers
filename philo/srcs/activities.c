@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   activities.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: msumon < msumon@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/05 01:38:48 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:02:39 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	pick_forks(t_philo *philo)
 	massages(philo, TAKEN_FORK);
 	if (philo->philo_id % 2 == 0)
 	{
+		usleep (100);
 		if (pthread_mutex_lock(philo->left_fork))
 		{
 			pthread_mutex_unlock(philo->right_fork);

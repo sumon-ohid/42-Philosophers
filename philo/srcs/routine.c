@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: msumon < msumon@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/05 10:44:03 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:44:23 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int  check_status(t_philo *philo)
+int	check_status(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->monitoring_mutex);
 	if (philo->data->simulation_end == true)
@@ -47,7 +47,6 @@ void	*routine(void *args)
 		massages(philo, THINKING);
 		if (check_status(philo))
 			break ;
-		usleep(100);
 	}
 	return (NULL);
 }
@@ -56,7 +55,8 @@ bool	check_if_dead(t_data *data, t_philo *philo, int *philo_is_full)
 {
 	if (data->must_eat_times > 0 && philo->meals_eaten >= data->must_eat_times)
 		*philo_is_full += 1;
-	if (get_time() - philo->last_meal_time >= (long unsigned int)philo->data->time_to_die)
+	if (get_time()
+		- philo->last_meal_time >= (long unsigned int)philo->data->time_to_die)
 	{
 		pthread_mutex_unlock(&data->monitoring_mutex);
 		massages(philo, DIED);
@@ -92,59 +92,4 @@ void	watch_tower(t_data *data, t_philo *philos)
 		}
 		pthread_mutex_unlock(&data->monitoring_mutex);
 	}
-}
-
-int	create_threads_and_join(t_data *data, t_philo *philos, int j)
-{
-	int	i;
-
-	i = 0;
-	philos->start_time = get_time();
-	while (i < data->philo_count)
-	{
-		if (i % 2 == 0)
-		{
-			if (pthread_create(&philos[i].thread_id, NULL, routine,
-					&philos[i]) != 0)
-			{
-				pthread_mutex_lock(&data->monitoring_mutex);
-				data->simulation_end = true;
-				pthread_mutex_unlock(&data->monitoring_mutex);
-				while (j < i)
-					if (pthread_join(philos[j++].thread_id, NULL))
-						return (1);
-				return (1);
-			}
-		}
-		i++;
-	}
-	usleep(200);
-	i = 0;
-	j = 0;
-	while (i < data->philo_count)
-	{
-		if (i % 2 == 1)
-		{
-			if (pthread_create(&philos[i].thread_id, NULL, routine,
-					&philos[i]) != 0)
-			{
-				pthread_mutex_lock(&data->monitoring_mutex);
-				data->simulation_end = true;
-				pthread_mutex_unlock(&data->monitoring_mutex);
-				while (j < i)
-					if (pthread_join(philos[j++].thread_id, NULL))
-						return (1);
-				return (1);
-			}
-		}
-		i++;
-	}
-	watch_tower(data, philos);
-	i = -1;
-	while (++i < data->philo_count)
-	{
-		if (pthread_join(philos[i].thread_id, NULL) != 0)
-			return (1);
-	}
-	return (0);
 }

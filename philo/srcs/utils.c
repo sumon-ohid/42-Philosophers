@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: msumon < msumon@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/05 00:13:38 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:38:02 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_usleep(long unsigned int time, t_data *data)
 	}
 }
 
-long unsigned int	get_time()
+long unsigned int	get_time(void)
 {
 	static long					start_time = 0;
 	long unsigned int			actual_time;
