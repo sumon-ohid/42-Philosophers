@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 16:55:51 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 18:47:32 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	eating_action(t_philo *philo)
 	pick_forks(philo);
 	pthread_mutex_lock(&philo->data->monitoring_mutex);
 	philo->last_meal_time = get_time(philo->data, philo);
-	if (philo->gtod_failed)
+	if (philo->data->gtod_failed)
 	{
 		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		putback_forks(philo);
@@ -91,7 +91,6 @@ int	eating_action(t_philo *philo)
 	messages(philo, EATING);
 	if (ft_usleep(philo->data->time_to_eat, philo->data))
 	{
-		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		putback_forks(philo);
 		return (1);
 	}

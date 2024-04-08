@@ -6,21 +6,23 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 16:48:43 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 19:04:22 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <string.h>
+#include <sys/time.h>
 
 int	ft_usleep(int time, t_data *data)
 {
 	long int	start;
 
 	start = get_time(data, data->philos);
+	if (data->gtod_failed)
+		return (1);
 	while (get_time(data, data->philos) - start < time)
 	{
-		if (data->philos->gtod_failed == true)
-			return (1);
 		pthread_mutex_lock(&data->monitoring_mutex);
 		if (data->simulation_end)
 		{
@@ -30,7 +32,7 @@ int	ft_usleep(int time, t_data *data)
 		pthread_mutex_unlock(&data->monitoring_mutex);
 		if (usleep(100))
 		{
-			ft_putstr_fd("usleep failed.\n", 2);
+			write(2, "Usleep failed\n", 14);
 			return (1);
 		}
 	}
@@ -41,12 +43,11 @@ long long	get_time(t_data *data, t_philo *philos)
 {
 	struct timeval	cur_time;
 
-	(void) data;
-	(void) philos;
+	(void)philos;
 	if (gettimeofday(&cur_time, NULL))
 	{
 		ft_putstr_fd("gettimeofday failed\n", 2);
-		philos->gtod_failed = true;
+		data->gtod_failed = true;
 		return (1);
 	}
 	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));

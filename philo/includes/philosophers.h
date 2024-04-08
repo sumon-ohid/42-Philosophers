@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 16:45:16 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 18:45:35 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				must_eat_times;
 	bool			simulation_end;
+	bool			gtod_failed;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	monitoring_mutex;
 }					t_data;
@@ -49,7 +50,6 @@ typedef struct s_philo
 	int				meals_eaten;
 	long long		last_meal_time;
 	long long		start_time;
-	bool			gtod_failed;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;

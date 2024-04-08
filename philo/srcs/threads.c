@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 16:45:37 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 19:12:30 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void	*routine(void *args)
 		}
 		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		if (eating_action(philo))
-			break;
+			break ;
 		sleeping_action(philo);
 		messages(philo, THINKING);
-		if (philo->data->philo_count % 2 == 1 && philo->philo_id != philo->data->philo_count)
+		if (philo->data->philo_count % 2 == 1
+			&& philo->philo_id != philo->data->philo_count)
 			usleep(philo->data->time_to_eat * 1000 + 100);
 	}
 	return (NULL);
@@ -47,7 +48,7 @@ bool	check_if_dead(t_data *data, t_philo *philo, int *philo_is_full)
 	if (get_time(data, philo)
 		- philo->last_meal_time >= philo->data->time_to_die)
 	{
-		if (philo->gtod_failed)
+		if (philo->data->gtod_failed)
 			return (false);
 		pthread_mutex_unlock(&data->monitoring_mutex);
 		messages(philo, DIED);
@@ -82,20 +83,34 @@ void	watch_tower(t_data *data, t_philo *philos)
 			return ;
 		}
 		pthread_mutex_unlock(&data->monitoring_mutex);
-		usleep(100); // ok
+		usleep(100);
 	}
+}
+
+int	join_thread_and_monitor(t_data *data, t_philo *philos)
+{
+	int	i;
+
+	i = -1;
+	watch_tower(data, philos);
+	while (++i < data->philo_count)
+	{
+		if (pthread_join(philos[i].thread_id, NULL) != 0)
+			return (1);
+	}
+	return (0);
 }
 
 int	create_threads_and_join(t_data *data, t_philo *philos, int j)
 {
-	int	i;
-	long long time;
+	int			i;
+	long long	time;
 
-	i = 0;
+	i = -1;
 	time = get_time(data, philos);
-	if (philos->gtod_failed)
+	if (philos->data->gtod_failed)
 		return (1);
-	while (i < data->philo_count)
+	while (++i < data->philo_count)
 	{
 		philos[i].start_time = time;
 		if (pthread_create(&philos[i].thread_id, NULL, routine,
@@ -109,14 +124,8 @@ int	create_threads_and_join(t_data *data, t_philo *philos, int j)
 					return (1);
 			return (1);
 		}
-		i++;
 	}
-	watch_tower(data, philos);
-	i = -1;
-	while (++i < data->philo_count)
-	{
-		if (pthread_join(philos[i].thread_id, NULL) != 0)
-			return (1);
-	}
+	if (join_thread_and_monitor(data, philos))
+		return (1);
 	return (0);
 }
