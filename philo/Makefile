@@ -1,15 +1,14 @@
 # Makefile for Philosophers project
 CC 		= cc
-CFLAGS 	= -Wall -Wextra -Werror -MMD -MP -g #-fsanitize=thread
+CFLAGS 	= -Wall -Wextra -Werror #-MMD -MP -g #-fsanitize=thread
 NAME 	= philo
 HEADER	= philosophers.h
 
 SRCS 	= 	srcs/main.c \
-			srcs/routine.c \
+			srcs/threads.c \
 			srcs/utils.c \
 			srcs/activities.c \
 			srcs/data_init.c \
-			srcs/create_join.c \
 
 OBJS 	= $(SRCS:.c=.o)
 DEPS	= $(OBJS:.o=.d)

@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:31:00 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/05 00:11:38 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 09:59:22 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,10 @@ pthread_mutex_t	*init_forks(t_data *data)
 	return (forks);
 }
 
-void	fork_assignment(t_philo *philos, pthread_mutex_t *forks, t_data *data)
-{
-	int	i;
-
-	i = 1;
-	philos[0].left_fork = &forks[0];
-	philos[0].right_fork = &forks[data->philo_count - 1];
-	while (i < data->philo_count)
-	{
-		philos[i].left_fork = &forks[i];
-		philos[i].right_fork = &forks[i - 1];
-		i++;
-	}
-}
-
 t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 {
-	t_philo		*philos;
-	int			i;
+	t_philo	*philos;
+	int		i;
 
 	philos = (t_philo *)malloc(sizeof(t_philo) * data->philo_count);
 	if (!philos)
@@ -74,12 +59,12 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 	{
 		philos[i].philo_id = i + 1;
 		philos[i].meals_eaten = 0;
-		philos[i].start_time = 0;
-		philos[i].last_meal_time = get_time();
+		philos[i].left_fork = &forks[i];
+		philos[i].right_fork = &forks[(i + 1) % data->philo_count];
+		philos[i].last_meal_time = get_time(data, philos);
 		philos[i].data = data;
 		i++;
 	}
-	fork_assignment(philos, forks, data);
 	return (philos);
 }
 

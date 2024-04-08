@@ -3,51 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msumon < msumon@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/05 17:38:02 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/04 13:28:30 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	ft_usleep(long unsigned int time, t_data *data)
+int	ft_usleep(int time, t_data *data)
 {
-	long unsigned int	start;
+	long int	start;
 
-	start = get_time();
-	while (get_time() - start < time)
+	start = get_time(data, data->philos);
+	while (get_time(data, data->philos) - start < time)
 	{
 		pthread_mutex_lock(&data->monitoring_mutex);
 		if (data->simulation_end)
 		{
 			pthread_mutex_unlock(&data->monitoring_mutex);
-			return ;
+			return (1);
 		}
 		pthread_mutex_unlock(&data->monitoring_mutex);
-		usleep(100);
+		if (usleep(100))
+		{
+			ft_putstr_fd("usleep failed.\n", 2);
+			return (1);
+		}
 	}
+	return (0);
 }
 
-long unsigned int	get_time(void)
+long long	get_time(t_data *data, t_philo *philos)
 {
-	static long					start_time = 0;
-	long unsigned int			actual_time;
-	struct timeval				tv;
+	struct timeval	cur_time;
 
-	if (start_time == 0)
+	(void) data;
+	(void) philos;
+	if (gettimeofday(&cur_time, NULL))
 	{
-		gettimeofday(&tv, NULL);
-		start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-		actual_time = 0;
+		ft_putstr_fd("gettimeofday failed\n", 2);
+		return (1);
 	}
-	else
-	{
-		gettimeofday(&tv, NULL);
-		actual_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - start_time;
-	}
-	return (actual_time);
+	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));
 }
 
 int	ft_atoi(const char *str)
