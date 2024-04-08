@@ -6,11 +6,23 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:31:00 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 19:04:16 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 19:42:30 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+int	check_status(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->monitoring_mutex);
+	if (philo->data->simulation_end)
+	{
+		pthread_mutex_unlock(&philo->data->monitoring_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->monitoring_mutex);
+	return (0);
+}
 
 void	free_forks(pthread_mutex_t *forks, int i)
 {

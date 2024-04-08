@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 18:45:35 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 19:42:55 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int					eating_action(t_philo *philo);
 void				sleeping_action(t_philo *philo);
 int					create_threads_and_join(t_data *data, t_philo *philos,
 						int j);
+int					check_status(t_philo *philo);
 
 // free and error handling
 void				free_forks(pthread_mutex_t *forks, int i);

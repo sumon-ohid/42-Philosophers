@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:32:11 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 19:12:30 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 19:42:24 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,15 @@ void	*routine(void *args)
 		usleep(1000);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->data->monitoring_mutex);
-		if (philo->data->simulation_end)
-		{
-			pthread_mutex_unlock(&philo->data->monitoring_mutex);
+		if (check_status(philo))
 			break ;
-		}
-		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		if (eating_action(philo))
 			break ;
+		if (check_status(philo))
+			break ;
 		sleeping_action(philo);
+		if (check_status(philo))
+			break ;
 		messages(philo, THINKING);
 		if (philo->data->philo_count % 2 == 1
 			&& philo->philo_id != philo->data->philo_count)
@@ -92,7 +91,11 @@ int	join_thread_and_monitor(t_data *data, t_philo *philos)
 	int	i;
 
 	i = -1;
+	if (check_status(philos))
+		return (0);
 	watch_tower(data, philos);
+	if (check_status(philos))
+		return (0);
 	while (++i < data->philo_count)
 	{
 		if (pthread_join(philos[i].thread_id, NULL) != 0)
