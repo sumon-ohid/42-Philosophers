@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:33:56 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/04 13:28:30 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:48:43 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_usleep(int time, t_data *data)
 	start = get_time(data, data->philos);
 	while (get_time(data, data->philos) - start < time)
 	{
+		if (data->philos->gtod_failed == true)
+			return (1);
 		pthread_mutex_lock(&data->monitoring_mutex);
 		if (data->simulation_end)
 		{
@@ -44,6 +46,7 @@ long long	get_time(t_data *data, t_philo *philos)
 	if (gettimeofday(&cur_time, NULL))
 	{
 		ft_putstr_fd("gettimeofday failed\n", 2);
+		philos->gtod_failed = true;
 		return (1);
 	}
 	return ((cur_time.tv_sec * 1000) + (cur_time.tv_usec / 1000));
@@ -58,6 +61,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	sign = 1;
 	result = 0;
+	if (!str || str[0] == '\0')
+		return (-1);
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
 		|| str[i] == '\f' || str[i] == '\r')
 		i++;

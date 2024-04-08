@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 16:01:48 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/03 12:56:11 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:45:16 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	long long		last_meal_time;
 	long long		start_time;
+	bool			gtod_failed;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -68,8 +69,8 @@ pthread_mutex_t		*init_forks(t_data *data);
 t_philo				*init_philos(t_data *data, pthread_mutex_t *forks);
 
 // simulation
-void				massages(t_philo *philo, char *msg);
-void				eating_action(t_philo *philo);
+void				messages(t_philo *philo, char *msg);
+int					eating_action(t_philo *philo);
 void				sleeping_action(t_philo *philo);
 int					create_threads_and_join(t_data *data, t_philo *philos,
 						int j);
