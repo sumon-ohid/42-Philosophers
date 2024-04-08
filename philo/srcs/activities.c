@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 19:40:27 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/08 22:28:44 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ int	eating_action(t_philo *philo)
 	if (ft_usleep(philo->data->time_to_eat, philo->data))
 	{
 		putback_forks(philo);
+		pthread_mutex_lock(&philo->data->monitoring_mutex);
+		philo->data->simulation_end = true;
+		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		return (1);
 	}
 	putback_forks(philo);
