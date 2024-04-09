@@ -6,7 +6,7 @@
 /*   By: msumon <msumon@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:40:25 by msumon            #+#    #+#             */
-/*   Updated: 2024/04/08 22:28:44 by msumon           ###   ########.fr       */
+/*   Updated: 2024/04/09 16:34:10 by msumon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,6 @@ void	sleeping_action(t_philo *philo)
 	messages(philo, SLEEPING);
 	if (ft_usleep(philo->data->time_to_sleep, philo->data))
 		return ;
-}
-
-void	messages(t_philo *philo, char *msg)
-{
-	long long	timestamp;
-
-	pthread_mutex_lock(&philo->data->monitoring_mutex);
-	if (philo->data->simulation_end)
-	{
-		pthread_mutex_unlock(&philo->data->monitoring_mutex);
-		return ;
-	}
-	timestamp = get_time(philo->data, philo) - philo->start_time;
-	printf("%lld %d %s", timestamp, philo->philo_id, msg);
-	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 }
 
 void	putback_forks(t_philo *philo)
@@ -48,16 +33,24 @@ void	putback_forks(t_philo *philo)
 	}
 }
 
+void	pick_forks_last_philo(t_philo *philo)
+{
+	if (philo->data->time_to_eat > philo->data->time_to_die)
+		usleep(100);
+	else
+		usleep(philo->data->time_to_eat * 1000 + 100);
+	pthread_mutex_lock(philo->right_fork);
+	messages(philo, TAKEN_FORK);
+	pthread_mutex_lock(philo->left_fork);
+	messages(philo, TAKEN_FORK);
+}
+
 void	pick_forks(t_philo *philo)
 {
 	if (philo->philo_id == philo->data->philo_count && philo->data->philo_count
 		% 2 != 0)
 	{
-		usleep(philo->data->time_to_eat * 1000 + 100);
-		pthread_mutex_lock(philo->right_fork);
-		messages(philo, TAKEN_FORK);
-		pthread_mutex_lock(philo->left_fork);
-		messages(philo, TAKEN_FORK);
+		pick_forks_last_philo(philo);
 	}
 	else if (philo->philo_id % 2 == 0)
 	{
@@ -89,9 +82,6 @@ int	eating_action(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 	messages(philo, EATING);
-	pthread_mutex_lock(&philo->data->monitoring_mutex);
-	philo->meals_eaten += 1;
-	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 	if (ft_usleep(philo->data->time_to_eat, philo->data))
 	{
 		putback_forks(philo);
@@ -100,6 +90,9 @@ int	eating_action(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->monitoring_mutex);
 		return (1);
 	}
+	pthread_mutex_lock(&philo->data->monitoring_mutex);
+	philo->meals_eaten += 1;
+	pthread_mutex_unlock(&philo->data->monitoring_mutex);
 	putback_forks(philo);
 	return (0);
 }
